@@ -11,6 +11,12 @@ public class Lead {
     public Lead() {
     }
 
+    public Lead(String nome, String email, TipoDeLead tipoDeLead) {
+        this.nome = nome;
+        this.email = email;
+        this.tipoDeLead = tipoDeLead;
+    }
+
     public String getNome() {
         return nome;
     }
