@@ -1,5 +1,6 @@
 package com.br.lead.collector.services;
 
+import com.br.lead.collector.enums.TipoDeLead;
 import com.br.lead.collector.models.Lead;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,8 @@ import java.util.List;
 @Service
 public class LeadService {
 
-    private List<Lead> leads = new ArrayList(Arrays.asList(new Lead()));
+    private List<Lead> leads = new ArrayList(Arrays.asList(
+            new Lead("Vinicius", "xablau@gmail.com", TipoDeLead.QUENTE)));
 
     public Lead buscarPorIndice(int indice){
         Lead lead = leads.get(indice);
