@@ -18,4 +18,9 @@ public class LeadService {
         Lead lead = leads.get(indice);
         return lead;
     }
+
+    public Lead salvarLead(Lead lead){
+        leads.add(lead);
+        return lead;
+    }
 }
