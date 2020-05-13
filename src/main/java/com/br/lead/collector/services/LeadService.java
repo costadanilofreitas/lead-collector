@@ -2,25 +2,56 @@ package com.br.lead.collector.services;
 
 import com.br.lead.collector.enums.TipoDeLead;
 import com.br.lead.collector.models.Lead;
+import com.br.lead.collector.repositories.LeadRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LeadService {
 
-    private List<Lead> leads = new ArrayList(Arrays.asList(
-            new Lead("Vinicius", "xablau@gmail.com", TipoDeLead.QUENTE)));
+    @Autowired
+    private LeadRepository leadRepository;
 
-    public Lead buscarPorIndice(int indice){
-        Lead lead = leads.get(indice);
-        return lead;
+    public Optional<Lead> buscarPorId(int id){
+        Optional<Lead> leadOptional = leadRepository.findById(id);
+        return leadOptional;
     }
 
     public Lead salvarLead(Lead lead){
-        leads.add(lead);
-        return lead;
+        Lead leadObjeto = leadRepository.save(lead);
+        return leadObjeto;
+    }
+
+    public Iterable<Lead> buscarTodosLeads(){
+        Iterable<Lead> leads = leadRepository.findAll();
+        return leads;
+    }
+
+    public Lead atualizarLead(Lead lead){
+        Optional<Lead> leadOptional = buscarPorId(lead.getId());
+        if (leadOptional.isPresent()){
+            Lead leadData = leadOptional.get();
+
+            if(lead.getNome() == null){
+                lead.setNome(leadData.getNome());
+            }
+            if(lead.getEmail() == null){
+                lead.setEmail(leadData.getEmail());
+            }
+            if(lead.getTipoDeLead() == null){
+                lead.setTipoDeLead(leadData.getTipoDeLead());
+            }
+        }
+        Lead leadObjeto = leadRepository.save(lead);
+        return leadObjeto;
+    }
+
+    public void deletarLead(Lead lead){
+        leadRepository.delete(lead);
     }
 }

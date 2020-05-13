@@ -2,9 +2,18 @@ package com.br.lead.collector.models;
 
 import com.br.lead.collector.enums.TipoDeLead;
 
+import javax.persistence.*;
+
+@Entity
 public class Lead {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "nome_completo")
     private String nome;
+
     private String email;
     private TipoDeLead tipoDeLead;
 
@@ -39,5 +48,13 @@ public class Lead {
 
     public void setTipoDeLead(TipoDeLead tipoDeLead) {
         this.tipoDeLead = tipoDeLead;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
