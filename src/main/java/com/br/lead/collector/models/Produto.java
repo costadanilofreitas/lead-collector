@@ -1,6 +1,9 @@
 package com.br.lead.collector.models;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Produto {
@@ -11,22 +14,16 @@ public class Produto {
 
     private String nome;
     private String descricao;
-    private Double preco;
+    private double preco;
 
     public Produto() {
     }
 
-    public Produto(String nome, String descricao, Double preco) {
-        this.nome = nome;
-        this.descricao = descricao;
-        this.preco = preco;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -46,12 +43,11 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public Double getPreco() {
+    public double getPreco() {
         return preco;
     }
 
-    public void setPreco(Double preco) {
+    public void setPreco(double preco) {
         this.preco = preco;
     }
-
 }

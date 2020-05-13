@@ -3,6 +3,9 @@ package com.br.lead.collector.models;
 import com.br.lead.collector.enums.TipoDeLead;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 public class Lead {
@@ -12,10 +15,15 @@ public class Lead {
     private int id;
 
     @Column(name = "nome_completo")
+    @Size(min = 8, max = 100, message = "O nome deve ter entre 8 a 100 caracteres ")
     private String nome;
 
+    @Email(message = "O formato do email é invalido")
     private String email;
     private TipoDeLead tipoDeLead;
+
+    @ManyToMany
+    private List<Produto> produtos;
 
     public Lead() {
     }
@@ -56,5 +64,13 @@ public class Lead {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 }
