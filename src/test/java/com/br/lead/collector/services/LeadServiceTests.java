@@ -50,4 +50,10 @@ public class LeadServiceTests {
         Assertions.assertEquals(lead.getEmail(), leadObjeto.getEmail());
 
     }
+
+    @Test
+    public void testeDeletarLead(){
+        leadService.deletarLead(lead);
+        Mockito.verify(leadRepository, Mockito.times(1)).delete(Mockito.any(Lead.class));
+    }
 }

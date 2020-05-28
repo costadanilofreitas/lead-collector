@@ -1,10 +1,10 @@
 package com.br.lead.collector.models;
 
 import com.br.lead.collector.enums.TipoDeLead;
+import org.hibernate.ObjectNotFoundException;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Entity
@@ -28,7 +28,7 @@ public class Lead {
     public Lead() {
     }
 
-    public Lead(String nome, String email, TipoDeLead tipoDeLead) {
+    public Lead(String nome, String email, TipoDeLead tipoDeLead) throws ObjectNotFoundException {
         this.nome = nome;
         this.email = email;
         this.tipoDeLead = tipoDeLead;

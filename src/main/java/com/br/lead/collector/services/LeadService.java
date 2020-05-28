@@ -5,6 +5,7 @@ import com.br.lead.collector.models.Lead;
 import com.br.lead.collector.models.Produto;
 import com.br.lead.collector.repositories.LeadRepository;
 import com.br.lead.collector.repositories.ProdutoRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,23 +43,14 @@ public class LeadService {
         return leads;
     }
 
-    public Lead atualizarLead(Lead lead){
+    public Lead atualizarLead(Lead lead) throws ObjectNotFoundException {
         Optional<Lead> leadOptional = buscarPorId(lead.getId());
         if (leadOptional.isPresent()){
-            Lead leadData = leadOptional.get();
-
-            if(lead.getNome() == null){
-                lead.setNome(leadData.getNome());
-            }
-            if(lead.getEmail() == null){
-                lead.setEmail(leadData.getEmail());
-            }
-            if(lead.getTipoDeLead() == null){
-                lead.setTipoDeLead(leadData.getTipoDeLead());
-            }
+            Lead leadObjeto = leadRepository.save(lead);
+            return leadObjeto;
         }
-        Lead leadObjeto = leadRepository.save(lead);
-        return leadObjeto;
+        throw new ObjectNotFoundException(Lead.class, "O lead não foi encontrato");
+
     }
 
     public void deletarLead(Lead lead){

@@ -3,8 +3,9 @@ package com.br.lead.collector.controllers;
 import com.br.lead.collector.enums.TipoDeLead;
 import com.br.lead.collector.models.Lead;
 import com.br.lead.collector.models.Produto;
+import com.br.lead.collector.security.JWTUtil;
 import com.br.lead.collector.services.LeadService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.br.lead.collector.services.UsuarioService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,18 +14,24 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 
-@WebMvcTest(LeadController.class)
+@WebMvcTest( LeadController.class )
+@Import(JWTUtil.class)
 public class LeadControllerTests {
 
     @MockBean
-    LeadService leadService;
+    private UsuarioService usuarioService;
+
+    @MockBean
+    private LeadService leadService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -47,11 +54,12 @@ public class LeadControllerTests {
         produto.setPreco(10.00);
         produto.setDescricao("Café da fazenda boa vista. ");
         lead.setProdutos(Arrays.asList(produto));
+
     }
 
     @Test
+    @WithMockUser(username = "usuario@gmail.com", password = "aviao11")
     public void testarCadastroDeLead() throws Exception {
-
         Iterable<Produto> produtosIterable = Arrays.asList(produto);
 
         Mockito.when(leadService.salvarLead(Mockito.any(Lead.class))).thenReturn(lead);

@@ -3,6 +3,7 @@ package com.br.lead.collector.controllers;
 import com.br.lead.collector.models.Lead;
 import com.br.lead.collector.models.Produto;
 import com.br.lead.collector.services.LeadService;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,8 +55,13 @@ public class LeadController {
     @PutMapping("/{id}")
     public Lead atualizarLead(@PathVariable Integer id, @RequestBody Lead lead){
         lead.setId(id);
-        Lead leadObjeto = leadService.atualizarLead(lead);
-        return leadObjeto;
+        try {
+            Lead leadObjeto = leadService.atualizarLead(lead);
+            return leadObjeto;
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
+        }
+
     }
 
     @DeleteMapping("/{id}")
